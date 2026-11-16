@@ -1,6 +1,6 @@
 #include <iostream>
 #include <chrono>
-#include "primality.h"
+#include "pollard_rho.h"
 
 using namespace std;
 using namespace chrono;
