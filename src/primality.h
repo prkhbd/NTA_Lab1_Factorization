@@ -3,4 +3,6 @@
 
 bool isPrimeMillerRabin(long long n, int k);
 
+long long trialDivision(long long n);
+
 #endif

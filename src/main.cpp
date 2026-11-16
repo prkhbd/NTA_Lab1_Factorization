@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include "primality.h"
 
@@ -11,13 +10,15 @@ int main()
     cout << "Enter a number: ";
     cin >> n;
 
-    if (isPrimeMillerRabin(n, 20))
+    long long divisor = trialDivision(n);
+
+    if (divisor == n)
     {
-        cout << n << " is probably prime." << endl;
+        cout << n << " is prime." << endl;
     }
     else
     {
-        cout << n << " is composite." << endl;
+        cout << "Found divisor: " << divisor << endl;
     }
 
     return 0;
