@@ -1,7 +1,9 @@
 #include <iostream>
+#include <chrono>
 #include "primality.h"
 
 using namespace std;
+using namespace chrono;
 
 int main()
 {
@@ -10,16 +12,16 @@ int main()
     cout << "Enter a number: ";
     cin >> n;
 
-    long long divisor = trialDivision(n);
+    auto start = high_resolution_clock::now();
 
-    if (divisor == n)
-    {
-        cout << n << " is prime." << endl;
-    }
-    else
-    {
-        cout << "Found divisor: " << divisor << endl;
-    }
+    long long divisor = pollardRho(n);
+
+    auto end = high_resolution_clock::now();
+
+    duration<double, milli> elapsed = end - start;
+
+    cout << "Found divisor: " << divisor << endl;
+    cout << "Execution time: " << elapsed.count() << " ms" << endl;
 
     return 0;
 }
