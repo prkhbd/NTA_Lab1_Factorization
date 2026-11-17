@@ -1,27 +1,28 @@
 #include <iostream>
-#include <chrono>
-#include "pollard_rho.h"
+#include <vector>
+
+#include "brillhart_morrison.h"
 
 using namespace std;
-using namespace chrono;
 
 int main()
 {
-    long long n;
+    long long n = 691534156424661573;
 
-    cout << "Enter a number: ";
-    cin >> n;
+    long double limit = calculateFactorBaseLimit(n);
+    vector<long long> factorBase = buildFactorBase(n);
 
-    auto start = high_resolution_clock::now();
+    cout << "Number: " << n << endl;
+    cout << "Factor base limit: " << limit << endl;
+    cout << "Factor base:" << endl;
 
-    long long divisor = pollardRho(n);
+    for (long long p : factorBase)
+    {
+        cout << p << " ";
+    }
 
-    auto end = high_resolution_clock::now();
-
-    duration<double, milli> elapsed = end - start;
-
-    cout << "Found divisor: " << divisor << endl;
-    cout << "Execution time: " << elapsed.count() << " ms" << endl;
+    cout << endl;
+    cout << "Factor base size: " << factorBase.size() << endl;
 
     return 0;
 }
