@@ -1,3 +1,4 @@
+
 #include "pollard_rho.h"
 
 #include <random>
@@ -8,8 +9,8 @@ using namespace std;
 
 long long pollardRho(long long n)
 {
-    if (n < 2)
-        return n;
+    if (n < 4)
+        return 0;
 
     if (n % 2 == 0)
         return 2;
@@ -20,7 +21,10 @@ long long pollardRho(long long n)
     mt19937_64 gen(random_device{}());
     uniform_int_distribution<long long> dist(2, n - 2);
 
-    while (true)
+    const int maxAttempts = 25;
+    const int maxIterations = 100000;
+
+    for (int attempt = 0; attempt < maxAttempts; ++attempt)
     {
         long long x = dist(gen);
         long long y = x;
@@ -32,15 +36,20 @@ long long pollardRho(long long n)
             return ((__int128)value * value + c) % n;
         };
 
-        while (d == 1)
+        int iterations = 0;
+
+        while (d == 1 && iterations < maxIterations)
         {
             x = f(x);
             y = f(f(y));
 
             d = gcd(abs(x - y), n);
+            ++iterations;
         }
 
-        if (d != n)
+        if (d > 1 && d < n)
             return d;
     }
+
+    return 0;
 }

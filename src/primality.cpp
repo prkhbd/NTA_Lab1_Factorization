@@ -28,9 +28,12 @@ long long modPow(long long a, long long d, long long n)
 
 bool isPrimeMillerRabin(long long n, int k)
 {
-    if (n < 2)
+    if (k <= 0)
         return false;
 
+    if (n < 2)
+        return false;
+        
     if (n == 2 || n == 3)
         return true;
 

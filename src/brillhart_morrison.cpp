@@ -412,7 +412,31 @@ long long findFactorFromDependencies(
 
     cpp_int N = n;
 
-    for (const auto& dependency : dependencies)
+    std::vector<std::vector<int>> candidates = dependencies;
+
+    const size_t maxDependencies = 64;
+    size_t limit = std::min(dependencies.size(), maxDependencies);
+
+    for (size_t i = 0; i < limit; i++)
+    {
+        if (dependencies[i].size() != smoothExponents.size())
+            continue;
+
+        for (size_t j = i + 1; j < limit; j++)
+        {
+            if (dependencies[j].size() != smoothExponents.size())
+                continue;
+
+            std::vector<int> combined(dependencies[i].size(), 0);
+
+            for (size_t k = 0; k < combined.size(); k++)
+                combined[k] = dependencies[i][k] ^ dependencies[j][k];
+
+            candidates.push_back(combined);
+        }
+    }
+
+    for (const auto& dependency : candidates)
     {
         if (dependency.size() != smoothExponents.size())
             continue;
@@ -466,13 +490,13 @@ long long findFactorFromDependencies(
             if (factorBase[j] <= 1)
                 continue;
 
-            int exponent = static_cast<int>(exponentSums[j] / 2);
+            long long exponent = exponentSums[j] / 2;
 
             if (exponent > 0)
             {
                 cpp_int term = modPowBig(
                     cpp_int(factorBase[j]),
-                    exponent,
+                    static_cast<int>(exponent),
                     N
                 );
 
